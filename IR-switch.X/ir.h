@@ -106,7 +106,7 @@ extern volatile irparams_t irparams;
 #define ENABLE_INTERRUPTS    (INTCONbits.GIEH = 1)
 
 // cpu speed
-#define SYSCLOCK 16000000    // TCY - instructions per second of pic
+#define SYSCLOCK 16000000    // TCY - instructions per second of pic (Fosc/4))
 #define USECPERTICK 50       // microseconds per clock interrupt tick
 
 // defines for timers

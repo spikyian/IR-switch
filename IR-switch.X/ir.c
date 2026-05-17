@@ -42,15 +42,13 @@ void ir_enableIRIn(void) {
     // initialise state machine variables
     irparams.rcvstate = STATE_IDLE;
     irparams.rawlen = 0;
-    // set pin modes
-    IR_RECEIVE_DIRECTION = INPUT;
 
     DISABLE_INTERRUPTS;
     // setup pulse clock timer interrupt for Timer
     ir_timerCfgNorm();
     ir_timerRst();
 
-    //Timer2 Overflow Interrupt Enable
+    //Timer3 Overflow Interrupt Enable
     TIMER_ENABLE_INTR;
 
     ENABLE_INTERRUPTS;  // enable interrupts
@@ -65,12 +63,19 @@ volatile unsigned char half_pwm = 0;
 static void ir_timerCfgNorm(void) {
   /*timer 3 for ir-receiving*/
   IPR2bits.TMR3IP = 1; // high priority
-  T3CON = 0b10000100;
-  TMR3H = (MAX_TMR_VAL - (USECPERTICK*(SYSCLOCK/US_PER_SEC)))/256;
-  TMR3L = (MAX_TMR_VAL - (USECPERTICK*(SYSCLOCK/US_PER_SEC)))%256;
+  //T3CON = 0b 1000 0100;
+  T3CONbits.TMR3ON = 0;     // Timer off whilst we set it up
+  T3CONbits.TMR3CS = 0;     // Fosc/4 clock source
+  T3CONbits.T3CKPS = 0;     // 1:1 prescale value
+  T3CONbits.SOSCEN = 0;     // No SOSC
+  T3CONbits.nT3SYNC = 1;    // Not synchronised
+  T3CONbits.RD16 = 1;       // Read as 16bit
+  T3GCONbits.TMR3GE = 0;    // No gate control
+  
+  ir_timerRst();
+  
   PIR2bits.TMR3IF = 0;
-  IPR2bits.TMR3IP = 1;
-  T3CONbits.TMR3ON = 1;
+  T3CONbits.TMR3ON = 1;     // Timer3 now on
 }
 
 /**
@@ -83,6 +88,7 @@ static void ir_timerRst(void) {
 }
 
 // TIMER interrupt code to collect raw data.
+// Called by Timer3 as a free-running timer
 // Widths of alternating SPACE, MARK are recorded in rawbuf.
 // Recorded in ticks of 50 microseconds.
 // rawlen counts the number of entries recorded so far.

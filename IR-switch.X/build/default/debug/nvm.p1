@@ -1,68 +1,40 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"84 ./ticker.h
-[; ;./ticker.h: 84:     {
-[s S1551 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S1551 TickBytes b0 b1 b2 b3 ]
-"93
-[; ;./ticker.h: 93:     {
-[s S1552 `us 1 `us 1 ]
-[n S1552 TickWords w0 w1 ]
-"79
-[; ;./ticker.h: 79: typedef union _TickValue {
-[u S1550 `ul 1 `S1551 1 `uc -> 4 `i `S1552 1 ]
-[n S1550 _TickValue val byte v word ]
-"120 IRswitchMain.c
-[; ;IRswitchMain.c: 120:                         configState = CONFIG_CODE2;
-[c E12421 0 1 2 .. ]
-[n E12421 . CONFIG_NONE CONFIG_CODE1 CONFIG_CODE2  ]
-"24 ./ir.h
-[; ;./ir.h: 24: typedef struct {
-[s S1553 `i 1 `ui 1 `ul 1 `i 1 `*Vui 1 `ui 1 ]
-[n S1553 . decode_type panasonicAddress value bits rawbuf rawlen ]
-[p mainexit ]
-"30700 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30700: extern volatile unsigned char TRISB __attribute__((address(0xF93)));
-[v _TRISB `Vuc ~T0 @X0 0 e@3987 ]
-"30762
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30762: extern volatile unsigned char TRISC __attribute__((address(0xF94)));
-[v _TRISC `Vuc ~T0 @X0 0 e@3988 ]
-"30331
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30331:     struct {
-[s S1158 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1158 . LATB0 LATB1 LATB2 LATB3 LATB4 LATB5 LATB6 LATB7 ]
-"30341
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30341:     struct {
-[s S1159 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1159 . LB0 LB1 LB2 LB3 LB4 LB5 LB6 LB7 ]
-"30330
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30330: typedef union {
-[u S1157 `S1158 1 `S1159 1 ]
-[n S1157 . . . ]
-"30352
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30352: extern volatile LATBbits_t LATBbits __attribute__((address(0xF8A)));
-[v _LATBbits `VS1157 ~T0 @X0 0 e@3978 ]
-"30443
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30443:     struct {
-[s S1161 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1161 . LATC0 LATC1 LATC2 LATC3 LATC4 LATC5 LATC6 LATC7 ]
-"30453
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30453:     struct {
-[s S1162 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1162 . LC0 LC1 LC2 LC3 LC4 LC5 LC6 LC7 ]
-"30442
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30442: typedef union {
-[u S1160 `S1161 1 `S1162 1 ]
-[n S1160 . . . ]
-"30464
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30464: extern volatile LATCbits_t LATCbits __attribute__((address(0xF8B)));
-[v _LATCbits `VS1160 ~T0 @X0 0 e@3979 ]
-"105 IRswitchMain.c
-[; ;IRswitchMain.c: 105:                 {LATBbits.LATB7 = 0;};
-[v _setup `(v ~T0 @X0 0 ef ]
-"106
-[; ;IRswitchMain.c: 106:                 break;
-[v _loop `(v ~T0 @X0 0 ef ]
-"36653 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h
+"134 nvm.c
+[; ;nvm.c: 134:     struct {
+[s S1551 :1 `uc 1 :1 `uc 1 ]
+[n S1551 . writeNeeded eraseNeeded ]
+"132
+[; ;nvm.c: 132: {
+[u S1550 `uc 1 `S1551 1 ]
+[n S1550 . asByte . ]
+"36990 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 36990: extern volatile unsigned char TBLPTRU __attribute__((address(0xFF8)));
+[v _TBLPTRU `Vuc ~T0 @X0 0 e@4088 ]
+"29797
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29797:     struct {
+[s S1133 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1133 . RD WR WREN WRERR FREE . CFGS EEPGD ]
+"29807
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29807:     struct {
+[s S1134 :6 `uc 1 :1 `uc 1 ]
+[n S1134 . . EEFS ]
+"29796
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29796: typedef union {
+[u S1132 `S1133 1 `S1134 1 ]
+[n S1132 . . . ]
+"29812
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29812: extern volatile EECON1bits_t EECON1bits __attribute__((address(0xF7F)));
+[v _EECON1bits `VS1132 ~T0 @X0 0 e@3967 ]
+"29375
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29375: extern volatile unsigned char EEADRH __attribute__((address(0xF75)));
+[v _EEADRH `Vuc ~T0 @X0 0 e@3957 ]
+"29355
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29355: extern volatile unsigned char EEADR __attribute__((address(0xF74)));
+[v _EEADR `Vuc ~T0 @X0 0 e@3956 ]
+"29335
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29335: extern volatile unsigned char EEDATA __attribute__((address(0xF73)));
+[v _EEDATA `Vuc ~T0 @X0 0 e@3955 ]
+"36653
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 36653:     struct {
 [s S1492 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S1492 . RBIF INT0IF TMR0IF RBIE INT0IE TMR0IE PEIE_GIEL GIE_GIEH ]
@@ -81,112 +53,38 @@ Version 4.0 HI-TECH Software Intermediate Code
 "36679
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 36679: extern volatile INTCONbits_t INTCONbits __attribute__((address(0xFF2)));
 [v _INTCONbits `VS1491 ~T0 @X0 0 e@4082 ]
-"35412
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 35412:     struct {
-[s S1411 :1 `uc 1 ]
-[n S1411 . NOT_BOR ]
-"35415
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 35415:     struct {
-[s S1412 :1 `uc 1 :1 `uc 1 ]
-[n S1412 . . NOT_POR ]
-"35419
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 35419:     struct {
-[s S1413 :2 `uc 1 :1 `uc 1 ]
-[n S1413 . . NOT_PD ]
-"35423
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 35423:     struct {
-[s S1414 :3 `uc 1 :1 `uc 1 ]
-[n S1414 . . NOT_TO ]
-"35427
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 35427:     struct {
-[s S1415 :4 `uc 1 :1 `uc 1 ]
-[n S1415 . . NOT_RI ]
-"35431
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 35431:     struct {
-[s S1416 :5 `uc 1 :1 `uc 1 ]
-[n S1416 . . NOT_CM ]
-"35435
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 35435:     struct {
-[s S1417 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1417 . nBOR nPOR nPD nTO nRI nCM SBOREN IPEN ]
-"35445
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 35445:     struct {
-[s S1418 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1418 . BOR POR PD TO RI CM ]
-"35411
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 35411: typedef union {
-[u S1410 `S1411 1 `S1412 1 `S1413 1 `S1414 1 `S1415 1 `S1416 1 `S1417 1 `S1418 1 ]
-[n S1410 . . . . . . . . . ]
-"35454
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 35454: extern volatile RCONbits_t RCONbits __attribute__((address(0xFD0)));
-[v _RCONbits `VS1410 ~T0 @X0 0 e@4048 ]
-"106 ./ticker.h
-[; ;./ticker.h: 106: void initTicker(uint8_t priority);
-[v _initTicker `(v ~T0 @X0 0 ef1`uc ]
-"152 ./nvm.h
-[; ;./nvm.h: 152: extern void initRomOps(void);
-[v _initRomOps `(v ~T0 @X0 0 ef ]
-"26972 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 26972: extern volatile unsigned char ANCON0 __attribute__((address(0xF5D)));
-[v _ANCON0 `Vuc ~T0 @X0 0 e@3933 ]
-"26920
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 26920: extern volatile unsigned char ANCON1 __attribute__((address(0xF5C)));
-[v _ANCON1 `Vuc ~T0 @X0 0 e@3932 ]
-"30643
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 30643: extern volatile unsigned char TRISA __attribute__((address(0xF92)));
-[v _TRISA `Vuc ~T0 @X0 0 e@3986 ]
-"73 ./ir.h
-[; ;./ir.h: 73: extern void ir_enableIRIn(void);
-[v _ir_enableIRIn `(v ~T0 @X0 0 ef ]
-"107 IRswitchMain.c
-[; ;IRswitchMain.c: 107:             case CONFIG_CODE2:
-[v _loadCode `(ul ~T0 @X0 0 ef1`uc ]
-"72 ./ir.h
-[; ;./ir.h: 72: extern uint8_t ir_decode(decode_results *results);
-[v _ir_decode `(uc ~T0 @X0 0 ef1`*S1553 ]
-"29863 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29863:     struct {
-[s S1136 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1136 . RA0 RA1 RA2 RA3 . RA5 RA6 RA7 ]
-"29873
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29873:     struct {
-[s S1137 :1 `uc 1 :4 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1137 . ULPWUIN . LVDIN . RJPU ]
-"29862
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29862: typedef union {
-[u S1135 `S1136 1 `S1137 1 ]
-[n S1135 . . . ]
-"29881
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29881: extern volatile PORTAbits_t PORTAbits __attribute__((address(0xF80)));
-[v _PORTAbits `VS1135 ~T0 @X0 0 e@3968 ]
-"108 IRswitchMain.c
-[; ;IRswitchMain.c: 108:                 {LATBbits.LATB6 = 0;};
-[v _saveCode `(v ~T0 @X0 0 ef2`uc`ul ]
-"74 ./ir.h
-[; ;./ir.h: 74: extern void ir_resume(void);
-[v _ir_resume `(v ~T0 @X0 0 ef ]
-"112 ./ticker.h
-[; ;./ticker.h: 112: uint32_t tickGet(void);
-[v _tickGet `(ul ~T0 @X0 0 ef ]
-"39 IRswitchMain.c
-[; ;IRswitchMain.c: 39: extern eeprom_data_t EEPROM_Read(eeprom_address_t index);
-[; ;IRswitchMain.c: 39:                 {LATBbits.LATB2 = 0;};
-[v _EEPROM_Read `(uc ~T0 @X0 0 ef1`us ]
-"40
-[; ;IRswitchMain.c: 40: extern uint8_t EEPROM_Write(eeprom_address_t index, eeprom_data_t value);
-[; ;IRswitchMain.c: 40:             }
-[v _EEPROM_Write `(uc ~T0 @X0 0 ef2`us`uc ]
-[t ~ __interrupt . k ]
-[t T5 __interrupt high_priority ]
-[x X1 mainSec ]
-"68 ./ir.h
-[; ;./ir.h: 68: extern void ir_interruptService(void);
-[v _ir_interruptService `(v ~T0 @X0 0 ef ]
-[t T6 __interrupt low_priority ]
-[x X2 mainSec ]
-"130 ./ticker.h
-[; ;./ticker.h: 130: extern void tickerIsr(void);
-[v _tickerIsr `(v ~T0 @X0 0 ef ]
+"180 ./nvm.h
+[; ;./nvm.h: 180: extern uint8_t EEPROM_WriteNoVerify(eeprom_address_t index, eeprom_data_t value);
+[v _EEPROM_WriteNoVerify `(uc ~T0 @X0 0 ef2`us`uc ]
+"29771 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29771: extern volatile unsigned char EECON2 __attribute__((address(0xF7E)));
+[v _EECON2 `Vuc ~T0 @X0 0 e@3966 ]
+"40277
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 40277: extern volatile __bit EEIF __attribute__((address(0x7DBE)));
+[v _EEIF `Vb ~T0 @X0 0 e@32190 ]
+"36942
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 36942: extern volatile __uint24 TBLPTR __attribute__((address(0xFF6)));
+[v _TBLPTR `Vum ~T0 @X0 0 e@4086 ]
+"36921
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 36921: extern volatile unsigned char TABLAT __attribute__((address(0xFF5)));
+[v _TABLAT `Vuc ~T0 @X0 0 e@4085 ]
+"349 nvm.c
+[; ;nvm.c: 349:     while (! APP_isSuitableTimeToWriteFlash())
+[c E12344 0 1 .. ]
+[n E12344 ValidTime BAD_TIME GOOD_TIME  ]
+"186 ./nvm.h
+[; ;./nvm.h: 186: extern ValidTime APP_isSuitableTimeToWriteFlash(void);
+[v _APP_isSuitableTimeToWriteFlash `(E12344 ~T0 @X0 0 ef ]
+"29791 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 29791: extern volatile unsigned char EECON1 __attribute__((address(0xF7F)));
+[v _EECON1 `Vuc ~T0 @X0 0 e@3967 ]
+"8 C:\Program Files\Microchip\xc8\v3.00\pic\include/builtins.h
+[v ___nop `(v ~T0 @X0 0 ef ]
+[p i ___nop ]
+"554 nvm.c
+[; ;nvm.c: 554: uint8_t writeNVM(NVMtype type, uint24_t index, uint8_t value) {
+[c E12340 0 1 .. ]
+[n E12340 . EEPROM_NVM_TYPE FLASH_NVM_TYPE  ]
 "52 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 52: __asm("RXERRCNT equ 0E41h");
 [; <" RXERRCNT equ 0E41h ;# ">
@@ -1561,595 +1459,697 @@ Version 4.0 HI-TECH Software Intermediate Code
 "37209
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-K_DFP/1.15.303/xc8\pic\include\proc/pic18f25k80.h: 37209: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
-"44 IRswitchMain.c
-[; ;IRswitchMain.c: 44: 
-[p x RETEN  =          OFF       ]
-"45
-[; ;IRswitchMain.c: 45:     while (1) {
-[p x INTOSCSEL  =  HIGH  ]
-"46
-[; ;IRswitchMain.c: 46:         loop();
-[p x SOSCSEL  =      DIG     ]
-"47
-[; ;IRswitchMain.c: 47:     }
-[p x XINST  =          OFF       ]
-"50
-[; ;IRswitchMain.c: 50: 
-[p x FOSC  =            HS2        ]
-"51
-[; ;IRswitchMain.c: 51: void setup(void) {
-[p x PLLCFG  =        ON       ]
-"52
-[; ;IRswitchMain.c: 52: 
-[p x FCMEN  =          OFF       ]
-"53
-[; ;IRswitchMain.c: 53:     {INTCONbits.GIEH = INTCONbits.GIEL = 0;};
-[p x IESO  =            OFF        ]
-"56
-[; ;IRswitchMain.c: 56:     initTicker(0);
-[p x PWRTEN  =        ON       ]
-"57
-[; ;IRswitchMain.c: 57:     initRomOps();
-[p x BOREN  =          SBORDIS       ]
-"58
-[; ;IRswitchMain.c: 58: 
-[p x BORV  =            0          ]
-"59
-[; ;IRswitchMain.c: 59:     ANCON0 = 0;
-[p x BORPWR  =        ZPBORMV  ]
-"62
-[; ;IRswitchMain.c: 62: 
-[p x WDTEN  =          OFF       ]
-"63
-[; ;IRswitchMain.c: 63: 
-[p x WDTPS  =          1048576       ]
-"66
-[; ;IRswitchMain.c: 66:     TRISC = 0b00000001;
-[p x CANMX  =          PORTB     ]
-"67
-[; ;IRswitchMain.c: 67: 
-[p x MSSPMSK  =      MSK7    ]
-"68
-[; ;IRswitchMain.c: 68:     {LATBbits.LATB6 = 0;};
-[p x MCLRE  =          ON        ]
-"71
-[; ;IRswitchMain.c: 71:     {LATCbits.LATC5 = 0;};
-[p x STVREN  =        ON       ]
-"72
-[; ;IRswitchMain.c: 72:     {LATCbits.LATC7 = 0;};
-[p x BBSIZ  =          BB1K      ]
-"75
-[; ;IRswitchMain.c: 75: 
-[p x CP0  =              OFF         ]
-"76
-[; ;IRswitchMain.c: 76:     ir_enableIRIn();
-[p x CP1  =              OFF         ]
-"77
-[; ;IRswitchMain.c: 77: 
-[p x CP2  =              OFF         ]
-"78
-[; ;IRswitchMain.c: 78: 
-[p x CP3  =              OFF         ]
-"81
-[; ;IRswitchMain.c: 81: 
-[p x CPB  =              OFF         ]
-"82
-[; ;IRswitchMain.c: 82:     code1_hash = loadCode(0);
-[p x CPD  =              OFF         ]
-"85
-[; ;IRswitchMain.c: 85: }
-[p x WRT0  =            OFF        ]
-"86
-[; ;IRswitchMain.c: 86: 
-[p x WRT1  =            OFF        ]
-"87
-[; ;IRswitchMain.c: 87: void loop(void) {
-[p x WRT2  =            OFF        ]
-"88
-[; ;IRswitchMain.c: 88:     uint8_t ready;
-[p x WRT3  =            OFF        ]
-"91
-[; ;IRswitchMain.c: 91: 
-[p x WRTC  =            OFF        ]
-"92
-[; ;IRswitchMain.c: 92:     if ((PORTAbits.RA2 == 0)) {
-[p x WRTB  =            OFF        ]
-"93
-[; ;IRswitchMain.c: 93: 
-[p x WRTD  =            OFF        ]
-"96
-[; ;IRswitchMain.c: 96:         switch (configState) {
-[p x EBTR0  =          OFF       ]
-"97
-[; ;IRswitchMain.c: 97:             case CONFIG_NONE:
-[p x EBTR1  =          OFF       ]
-"98
-[; ;IRswitchMain.c: 98: 
-[p x EBTR2  =          OFF       ]
-"99
-[; ;IRswitchMain.c: 99: 
-[p x EBTR3  =          OFF       ]
-"102
-[; ;IRswitchMain.c: 102: 
-[p x EBTRB  =          OFF       ]
-"119
-[; ;IRswitchMain.c: 119:                         saveCode(0, code1_hash);
-[v _onTime `S1550 ~T0 @X0 1 e ]
-"120
-[; ;IRswitchMain.c: 120:                         configState = CONFIG_CODE2;
-[v _configState `E12421 ~T0 @X0 1 e ]
-"121
-[; ;IRswitchMain.c: 121:                     }
-[v _code1_hash `ul ~T0 @X0 1 e ]
-"122
-[; ;IRswitchMain.c: 122:                     break;
-[v _code2_hash `ul ~T0 @X0 1 e ]
-"123
-[; ;IRswitchMain.c: 123:                 case CONFIG_CODE2:
-[v _ir_results `S1553 ~T0 @X0 1 e ]
-[v $root$_main `(v ~T0 @X0 0 e ]
-"127
-[; ;IRswitchMain.c: 127:                         saveCode(1, code2_hash);
-[v _main `(v ~T0 @X0 1 ef ]
-{
-[e :U _main ]
-[f ]
-"128
-[; ;IRswitchMain.c: 128:                         configState = CONFIG_CODE1;
-[v _t1 `uc ~T0 @X0 1 a ]
-[v _t2 `uc ~T0 @X0 1 a ]
-[v _i `uc ~T0 @X0 1 a ]
-"133
-[; ;IRswitchMain.c: 133:                     break;
-[e = _TRISB -> -> 0 `i `uc ]
-"134
-[; ;IRswitchMain.c: 134:             }
-[e = _TRISC -> -> 0 `i `uc ]
-"135
-[; ;IRswitchMain.c: 135:             ir_resume();
-{
-[e = . . _LATBbits 0 6 -> -> 1 `i `uc ]
-}
-"136
-[; ;IRswitchMain.c: 136:         }
-{
-[e = . . _LATBbits 0 7 -> -> 1 `i `uc ]
-}
-"137
-[; ;IRswitchMain.c: 137:     } else {
-{
-[e = . . _LATCbits 0 7 -> -> 1 `i `uc ]
-}
-"139
-[; ;IRswitchMain.c: 139:         {LATBbits.LATB6 = 0;};
-{
-[e = _t1 -> -> 0 `i `uc ]
-[e $ < -> _t1 `i -> 64 `i 1556  ]
-[e $U 1557  ]
-[e :U 1556 ]
-{
-"140
-[; ;IRswitchMain.c: 140:         {LATBbits.LATB7 = 0;};
-{
-[e = _t2 -> -> 0 `i `uc ]
-[e $ < -> _t2 `i -> 255 `i 1559  ]
-[e $U 1560  ]
-[e :U 1559 ]
-{
+"138 nvm.c
+[; ;nvm.c: 138: } flashFlags;
+[v _flashFlags `S1550 ~T0 @X0 1 s ]
 "141
-[; ;IRswitchMain.c: 141:         if (ready == 1) {
-{
-[e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 255 `i 1562  ]
-[e $U 1563  ]
-[e :U 1562 ]
-{
-"143
-[; ;IRswitchMain.c: 143:                 {LATCbits.LATC6 = 1;};
-{
-[e = . . _LATBbits 0 2 -> -> 0 `i `uc ]
-}
-"144
-[; ;IRswitchMain.c: 144:                 {LATCbits.LATC5 = 0;};
-}
-[e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 255 `i 1562  ]
-[e :U 1563 ]
-}
-"145
-[; ;IRswitchMain.c: 145:                 onTime.val = tickGet();
-}
-[e ++ _t2 -> -> 1 `i `uc ]
-[e $ < -> _t2 `i -> 255 `i 1559  ]
-[e :U 1560 ]
-}
-"146
-[; ;IRswitchMain.c: 146:                 {LATBbits.LATB2 = 1;};
-}
-[e ++ _t1 -> -> 1 `i `uc ]
-[e $ < -> _t1 `i -> 64 `i 1556  ]
-[e :U 1557 ]
-}
+[; ;nvm.c: 141: static flash_data_t flashBuffer[64];
+[v _flashBuffer `uc ~T0 @X0 -> 64 `i s ]
 "147
-[; ;IRswitchMain.c: 147:             }
-[e ( _setup ..  ]
-"149
-[; ;IRswitchMain.c: 149:                 {LATCbits.LATC5 = 1;};
-[e :U 1566 ]
-{
-"150
-[; ;IRswitchMain.c: 150:                 {LATCbits.LATC6 = 0;};
-[e ( _loop ..  ]
-"151
-[; ;IRswitchMain.c: 151:                 onTime.val = tickGet();
-}
-[e :U 1565 ]
-[e $U 1566  ]
-[e :U 1567 ]
-"153
-[; ;IRswitchMain.c: 153:             }
-[e :UE 1555 ]
-}
-"155
-[; ;IRswitchMain.c: 155:             ir_resume();
-[v _setup `(v ~T0 @X0 1 ef ]
-{
-[e :U _setup ]
-[f ]
+[; ;nvm.c: 147: static flash_address_t flashBlock;
+[v _flashBlock `us ~T0 @X0 1 s ]
 "157
-[; ;IRswitchMain.c: 157:     }
+[; ;nvm.c: 157: void initRomOps(void) {
+[v _initRomOps `(v ~T0 @X0 1 ef ]
+{
+[e :U _initRomOps ]
+[f ]
+"158
+[; ;nvm.c: 158:     flashFlags.asByte = 0;
+[e = . _flashFlags 0 -> -> 0 `i `uc ]
+"159
+[; ;nvm.c: 159:     flashBlock = 0x0800;
+[e = _flashBlock -> -> 2048 `i `us ]
+"161
+[; ;nvm.c: 161:     TBLPTRU = 0;
+[e = _TBLPTRU -> -> 0 `i `uc ]
+"165
+[; ;nvm.c: 165: }
+[e :UE 1552 ]
+}
+"172
+[; ;nvm.c: 172: eeprom_data_t EEPROM_Read(eeprom_address_t index) {
+[v _EEPROM_Read `(uc ~T0 @X0 1 ef1`us ]
+{
+[e :U _EEPROM_Read ]
+[v _index `us ~T0 @X0 1 r1 ]
+[f ]
+"175
+[; ;nvm.c: 175:     while (EECON1bits.WR)
+[e $U 1554  ]
+[e :U 1555 ]
+"176
+[; ;nvm.c: 176:         ;
+[e :U 1554 ]
+"175
+[; ;nvm.c: 175:     while (EECON1bits.WR)
+[e $ != -> . . _EECON1bits 0 1 `i -> 0 `i 1555  ]
+[e :U 1556 ]
+"178
+[; ;nvm.c: 178:     EEADRH = (index >> 8)&0xFF;
+[e = _EEADRH -> & >> -> _index `ui -> 8 `i -> -> 255 `i `ui `uc ]
+"179
+[; ;nvm.c: 179:     EEADR = index & 0xFF;
+[e = _EEADR -> & -> _index `ui -> -> 255 `i `ui `uc ]
+"180
+[; ;nvm.c: 180:     EECON1bits.EEPGD = 0;
+[e = . . _EECON1bits 0 7 -> -> 0 `i `uc ]
+"181
+[; ;nvm.c: 181:     EECON1bits.CFGS = 0;
+[e = . . _EECON1bits 0 6 -> -> 0 `i `uc ]
+"182
+[; ;nvm.c: 182:     EECON1bits.RD = 1;
+[e = . . _EECON1bits 0 0 -> -> 1 `i `uc ]
+"183
+[; ;nvm.c: 183:     while (EECON1bits.RD)
+[e $U 1557  ]
+[e :U 1558 ]
+"184
+[; ;nvm.c: 184:         ;
+[e :U 1557 ]
+"183
+[; ;nvm.c: 183:     while (EECON1bits.RD)
+[e $ != -> . . _EECON1bits 0 0 `i -> 0 `i 1558  ]
+[e :U 1559 ]
+"186
+[; ;nvm.c: 186:     __asm("NOP");
+[; <" NOP ;# ">
+"188
+[; ;nvm.c: 188:     return EEDATA;
+[e ) _EEDATA ]
+[e $UE 1553  ]
+"211
+[; ;nvm.c: 211: }
+[e :UE 1553 ]
+}
+"219
+[; ;nvm.c: 219: uint8_t EEPROM_Write(eeprom_address_t index, eeprom_data_t value) {
+[v _EEPROM_Write `(uc ~T0 @X0 1 ef2`us`uc ]
+{
+[e :U _EEPROM_Write ]
+[v _index `us ~T0 @X0 1 r1 ]
+[v _value `uc ~T0 @X0 1 r2 ]
+[f ]
+"220
+[; ;nvm.c: 220:     uint8_t interruptEnabled;
+[v _interruptEnabled `uc ~T0 @X0 1 a ]
+"221
+[; ;nvm.c: 221:     interruptEnabled = (INTCONbits.GIEH | INTCONbits.GIEL);
+[e = _interruptEnabled -> | -> . . _INTCONbits 2 2 `i -> . . _INTCONbits 2 1 `i `uc ]
+"223
+[; ;nvm.c: 223:     do {
+[e :U 1563 ]
+{
+"224
+[; ;nvm.c: 224:         EEPROM_WriteNoVerify(index, value);
+[e ( _EEPROM_WriteNoVerify (2 , _index _value ]
+"227
+[; ;nvm.c: 227:         if (EEPROM_Read(index) == value) {
+[e $ ! == -> ( _EEPROM_Read (1 _index `i -> _value `i 1564  ]
+{
+"228
+[; ;nvm.c: 228:             break;
+[e $U 1562  ]
+"229
+[; ;nvm.c: 229:         }
+}
+[e :U 1564 ]
+"234
+[; ;nvm.c: 234:     } while (1);
+}
+[e $ != -> 1 `i -> 0 `i 1563  ]
+[e :U 1562 ]
+"240
+[; ;nvm.c: 240:     return 0;
+[e ) -> -> 0 `i `uc ]
+[e $UE 1560  ]
+"241
+[; ;nvm.c: 241: }
+[e :UE 1560 ]
+}
+"249
+[; ;nvm.c: 249: uint8_t EEPROM_WriteNoVerify(eeprom_address_t index, eeprom_data_t value) {
+[v _EEPROM_WriteNoVerify `(uc ~T0 @X0 1 ef2`us`uc ]
+{
+[e :U _EEPROM_WriteNoVerify ]
+[v _index `us ~T0 @X0 1 r1 ]
+[v _value `uc ~T0 @X0 1 r2 ]
+[f ]
+"250
+[; ;nvm.c: 250:     uint8_t interruptEnabled;
+[v _interruptEnabled `uc ~T0 @X0 1 a ]
+"251
+[; ;nvm.c: 251:     interruptEnabled = (INTCONbits.GIEH | INTCONbits.GIEL);
+[e = _interruptEnabled -> | -> . . _INTCONbits 2 2 `i -> . . _INTCONbits 2 1 `i `uc ]
+"253
+[; ;nvm.c: 253:     EEADRH = (index >> 8)&0xFF;
+[e = _EEADRH -> & >> -> _index `ui -> 8 `i -> -> 255 `i `ui `uc ]
+"254
+[; ;nvm.c: 254:     EEADR = index & 0xFF;
+[e = _EEADR -> & -> _index `ui -> -> 255 `i `ui `uc ]
+"255
+[; ;nvm.c: 255:     EEDATA = value;
+[e = _EEDATA _value ]
+"256
+[; ;nvm.c: 256:     EECON1bits.EEPGD = 0;
+[e = . . _EECON1bits 0 7 -> -> 0 `i `uc ]
+"257
+[; ;nvm.c: 257:     EECON1bits.CFGS = 0;
+[e = . . _EECON1bits 0 6 -> -> 0 `i `uc ]
+"258
+[; ;nvm.c: 258:     EECON1bits.WREN = 1;
+[e = . . _EECON1bits 0 2 -> -> 1 `i `uc ]
+"260
+[; ;nvm.c: 260:     {INTCONbits.GIEH = INTCONbits.GIEL = 0;};
 {
 [e = . . _INTCONbits 2 2 = . . _INTCONbits 2 1 -> -> 0 `i `uc ]
 }
-"158
-[; ;IRswitchMain.c: 158:     if ((tickGet() - onTime.val) > 4*(62500*5)) {
-[e = . . _RCONbits 6 7 -> -> 1 `i `uc ]
-"160
-[; ;IRswitchMain.c: 160:         {LATCbits.LATC5 = 0;};
-[e ( _initTicker (1 -> -> 0 `i `uc ]
-"161
-[; ;IRswitchMain.c: 161:     }
-[e ( _initRomOps ..  ]
-"163
-[; ;IRswitchMain.c: 163: 
-[e = _ANCON0 -> -> 0 `i `uc ]
-"164
-[; ;IRswitchMain.c: 164: 
-[e = _ANCON1 -> -> 0 `i `uc ]
-"168
-[; ;IRswitchMain.c: 168: 
-[e = _TRISA -> -> 4 `i `uc ]
-"169
-[; ;IRswitchMain.c: 169: unsigned long loadCode(uint8_t codeNo) {
-[e = _TRISB -> -> 0 `i `uc ]
-"170
-[; ;IRswitchMain.c: 170:     unsigned long res;
-[e = _TRISC -> -> 1 `i `uc ]
-"172
-[; ;IRswitchMain.c: 172:     res = res << 8;
+"261
+[; ;nvm.c: 261:     EECON2 = 0x55;
+[e = _EECON2 -> -> 85 `i `uc ]
+"262
+[; ;nvm.c: 262:     EECON2 = 0xAA;
+[e = _EECON2 -> -> 170 `i `uc ]
+"263
+[; ;nvm.c: 263:     EECON1bits.WR = 1;
+[e = . . _EECON1bits 0 1 -> -> 1 `i `uc ]
+"264
+[; ;nvm.c: 264:     while (EECON1bits.WR)
+[e $U 1566  ]
+[e :U 1567 ]
+"265
+[; ;nvm.c: 265:         ;
+[e :U 1566 ]
+"264
+[; ;nvm.c: 264:     while (EECON1bits.WR)
+[e $ != -> . . _EECON1bits 0 1 `i -> 0 `i 1567  ]
+[e :U 1568 ]
+"266
+[; ;nvm.c: 266:     while (!EEIF)
+[e $U 1569  ]
+[e :U 1570 ]
+"267
+[; ;nvm.c: 267:         ;
+[e :U 1569 ]
+"266
+[; ;nvm.c: 266:     while (!EEIF)
+[e $ ! _EEIF 1570  ]
+[e :U 1571 ]
+"268
+[; ;nvm.c: 268:     EEIF = 0;
+[e = _EEIF -> -> 0 `i `b ]
+"269
+[; ;nvm.c: 269:     if (interruptEnabled) {
+[e $ ! != -> _interruptEnabled `i -> 0 `i 1572  ]
 {
-[e = . . _LATBbits 0 6 -> -> 0 `i `uc ]
-}
-"173
-[; ;IRswitchMain.c: 173:     res |= EEPROM_Read(1 + 4*codeNo);
-{
-[e = . . _LATBbits 0 7 -> -> 0 `i `uc ]
-}
-"174
-[; ;IRswitchMain.c: 174:     res = res << 8;
-{
-[e = . . _LATCbits 0 6 -> -> 0 `i `uc ]
-}
-"175
-[; ;IRswitchMain.c: 175:     res |= EEPROM_Read(2 + 4*codeNo);
-{
-[e = . . _LATCbits 0 5 -> -> 0 `i `uc ]
-}
-"176
-[; ;IRswitchMain.c: 176:     res = res << 8;
-{
-[e = . . _LATCbits 0 7 -> -> 0 `i `uc ]
-}
-"177
-[; ;IRswitchMain.c: 177:     res |= EEPROM_Read(3 + 4*codeNo);
-{
-[e = . . _LATBbits 0 2 -> -> 0 `i `uc ]
-}
-"180
-[; ;IRswitchMain.c: 180: 
-[e ( _ir_enableIRIn ..  ]
-"183
-[; ;IRswitchMain.c: 183: 
-[e = _configState . `E12421 0 ]
-"186
-[; ;IRswitchMain.c: 186: void saveCode(uint8_t codeNo, unsigned long code) {
-[e = _code1_hash ( _loadCode (1 -> -> 0 `i `uc ]
-"187
-[; ;IRswitchMain.c: 187:     EEPROM_Write(3 + 4*codeNo, code & 0xFF);
-[e = _code2_hash ( _loadCode (1 -> -> 1 `i `uc ]
-"188
-[; ;IRswitchMain.c: 188:     code = code >> 8;
+"271
+[; ;nvm.c: 271:         {INTCONbits.GIEH = INTCONbits.GIEL = 1;};
 {
 [e = . . _INTCONbits 2 2 = . . _INTCONbits 2 1 -> -> 1 `i `uc ]
 }
-"189
-[; ;IRswitchMain.c: 189:     EEPROM_Write(2 + 4*codeNo, code & 0xFF);
-[e :UE 1568 ]
+"272
+[; ;nvm.c: 272:     }
 }
-"191
-[; ;IRswitchMain.c: 191:     EEPROM_Write(1 + 4*codeNo, code & 0xFF);
-[v _loop `(v ~T0 @X0 1 ef ]
-{
-[e :U _loop ]
-[f ]
-"192
-[; ;IRswitchMain.c: 192:     code = code >> 8;
-[v _ready `uc ~T0 @X0 1 a ]
-"194
-[; ;IRswitchMain.c: 194: }
-[e = _ready ( _ir_decode (1 &U _ir_results ]
-"196
-[; ;IRswitchMain.c: 196: 
-[e $ ! == -> . . _PORTAbits 0 2 `i -> 0 `i 1570  ]
-{
-"200
-[; ;IRswitchMain.c: 200:     ir_interruptService();
-[e $U 1572  ]
-{
-"201
-[; ;IRswitchMain.c: 201: }
-[e :U 1573 ]
-"204
-[; ;IRswitchMain.c: 204: 
-[e = _code1_hash = _code2_hash -> -> -> 0 `i `l `ul ]
-"205
-[; ;IRswitchMain.c: 205: 
-[e = _configState . `E12421 1 ]
-"207
-[; ;IRswitchMain.c: 207:     tickerIsr();
-[e :U 1574 ]
-"208
-[; ;IRswitchMain.c: 208: }
-{
-[e = . . _LATBbits 0 6 -> -> 1 `i `uc ]
-}
-"209
-{
-[e = . . _LATBbits 0 7 -> -> 0 `i `uc ]
-}
-"210
-[e $U 1571  ]
-"211
-[e :U 1575 ]
-"212
-{
-[e = . . _LATBbits 0 6 -> -> 0 `i `uc ]
-}
-"213
-{
-[e = . . _LATBbits 0 7 -> -> 1 `i `uc ]
-}
-"214
-[e $U 1571  ]
-"215
-}
-[e $U 1571  ]
 [e :U 1572 ]
-[e [\ -> _configState `ui , $ -> . `E12421 0 `ui 1573
- , $ -> . `E12421 1 `ui 1574
- , $ -> . `E12421 2 `ui 1575
- 1571 ]
-[e :U 1571 ]
-"216
-[e $ ! == -> _ready `i -> 1 `i 1576  ]
-{
-"218
-[e $U 1578  ]
-{
-"219
-[e :U 1579 ]
-"221
-[e $ ! != . _ir_results 2 _code2_hash 1580  ]
-{
-"222
-[e = _code1_hash . _ir_results 2 ]
-"223
-[e ( _saveCode (2 , -> -> 0 `i `uc _code1_hash ]
-"224
-[e = _configState . `E12421 2 ]
-"225
+"273
+[; ;nvm.c: 273:     EECON1bits.WREN = 0;
+[e = . . _EECON1bits 0 2 -> -> 0 `i `uc ]
+"306
+[; ;nvm.c: 306:     return 0;
+[e ) -> -> 0 `i `uc ]
+[e $UE 1565  ]
+"307
+[; ;nvm.c: 307: }
+[e :UE 1565 ]
 }
-[e :U 1580 ]
-"226
-[e $U 1577  ]
-"227
-[e :U 1581 ]
-"229
-[e $ ! != . _ir_results 2 _code1_hash 1582  ]
+"316
+[; ;nvm.c: 316: static flash_data_t FLASH_Read(flash_address_t address) {
+[v _FLASH_Read `(uc ~T0 @X0 1 sf1`us ]
 {
-"230
-[e = _code2_hash . _ir_results 2 ]
-"231
-[e ( _saveCode (2 , -> -> 1 `i `uc _code2_hash ]
-"232
-[e = _configState . `E12421 1 ]
-"233
+[e :U _FLASH_Read ]
+[v _address `us ~T0 @X0 1 r1 ]
+[f ]
+"318
+[; ;nvm.c: 318:     if ((address&(~((flash_address_t)64 -1))) == flashBlock) {
+[e $ ! == & -> _address `ui ~ - -> -> -> 64 `i `us `ui -> -> 1 `i `ui -> _flashBlock `ui 1574  ]
+{
+"320
+[; ;nvm.c: 320:         return flashBuffer[(address&(64 -1))];
+[e ) *U + &U _flashBuffer * -> & -> _address `ui -> - -> 64 `i -> 1 `i `ui `ux -> -> # *U &U _flashBuffer `ui `ux ]
+[e $UE 1573  ]
+"321
+[; ;nvm.c: 321:     } else {
 }
-[e :U 1582 ]
-"234
-[e $U 1577  ]
-"235
-[e :U 1583 ]
-"237
-[e $U 1577  ]
-"238
+[e $U 1575  ]
+[e :U 1574 ]
+{
+"324
+[; ;nvm.c: 324:         TBLPTR = address;
+[e = _TBLPTR -> _address `um ]
+"325
+[; ;nvm.c: 325:         TBLPTRU = 0;
+[e = _TBLPTRU -> -> 0 `i `uc ]
+"326
+[; ;nvm.c: 326:         __asm("TBLRD");
+[; <" TBLRD ;# ">
+"336
+[; ;nvm.c: 336:         return TABLAT;
+[e ) _TABLAT ]
+[e $UE 1573  ]
+"337
+[; ;nvm.c: 337:     }
 }
+[e :U 1575 ]
+"338
+[; ;nvm.c: 338: }
+[e :UE 1573 ]
+}
+"345
+[; ;nvm.c: 345: void eraseFlashBlock(void) {
+[v _eraseFlashBlock `(v ~T0 @X0 1 ef ]
+{
+[e :U _eraseFlashBlock ]
+[f ]
+"346
+[; ;nvm.c: 346:     uint8_t interruptEnabled;
+[v _interruptEnabled `uc ~T0 @X0 1 a ]
+"349
+[; ;nvm.c: 349:     while (! APP_isSuitableTimeToWriteFlash())
 [e $U 1577  ]
 [e :U 1578 ]
-[e [\ -> _configState `ui , $ -> . `E12421 1 `ui 1579
- , $ -> . `E12421 2 `ui 1581
- , $ -> . `E12421 0 `ui 1583
- 1577 ]
+"350
+[; ;nvm.c: 350:         ;
 [e :U 1577 ]
-"239
-[e ( _ir_resume ..  ]
-"240
-}
-[e :U 1576 ]
-"241
-}
-[e $U 1584  ]
-[e :U 1570 ]
+"349
+[; ;nvm.c: 349:     while (! APP_isSuitableTimeToWriteFlash())
+[e $ ! != -> ( _APP_isSuitableTimeToWriteFlash ..  `ui -> -> 0 `i `ui 1578  ]
+[e :U 1579 ]
+"352
+[; ;nvm.c: 352:     interruptEnabled = (INTCONbits.GIEH | INTCONbits.GIEL);
+[e = _interruptEnabled -> | -> . . _INTCONbits 2 2 `i -> . . _INTCONbits 2 1 `i `uc ]
+"354
+[; ;nvm.c: 354:     TBLPTR = flashBlock;
+[e = _TBLPTR -> _flashBlock `um ]
+"355
+[; ;nvm.c: 355:     TBLPTRU = 0;
+[e = _TBLPTRU -> -> 0 `i `uc ]
+"356
+[; ;nvm.c: 356:     EECON1bits.EEPGD = 1;
+[e = . . _EECON1bits 0 7 -> -> 1 `i `uc ]
+"357
+[; ;nvm.c: 357:     EECON1bits.CFGS = 0;
+[e = . . _EECON1bits 0 6 -> -> 0 `i `uc ]
+"358
+[; ;nvm.c: 358:     EECON1bits.WREN = 1;
+[e = . . _EECON1bits 0 2 -> -> 1 `i `uc ]
+"359
+[; ;nvm.c: 359:     EECON1bits.FREE = 1;
+[e = . . _EECON1bits 0 4 -> -> 1 `i `uc ]
+"360
+[; ;nvm.c: 360:     {INTCONbits.GIEH = INTCONbits.GIEL = 0;};
 {
-"242
-[e = _configState . `E12421 0 ]
-"243
-{
-[e = . . _LATBbits 0 6 -> -> 0 `i `uc ]
+[e = . . _INTCONbits 2 2 = . . _INTCONbits 2 1 -> -> 0 `i `uc ]
 }
-"244
+"361
+[; ;nvm.c: 361:     EECON2 = 0x55;
+[e = _EECON2 -> -> 85 `i `uc ]
+"362
+[; ;nvm.c: 362:     EECON2 = 0xaa;
+[e = _EECON2 -> -> 170 `i `uc ]
+"363
+[; ;nvm.c: 363:     EECON1bits.WR = 1;
+[e = . . _EECON1bits 0 1 -> -> 1 `i `uc ]
+"364
+[; ;nvm.c: 364:     while(EECON1bits.WR)
+[e $U 1580  ]
+[e :U 1581 ]
+"365
+[; ;nvm.c: 365:         ;
+[e :U 1580 ]
+"364
+[; ;nvm.c: 364:     while(EECON1bits.WR)
+[e $ != -> . . _EECON1bits 0 1 `i -> 0 `i 1581  ]
+[e :U 1582 ]
+"366
+[; ;nvm.c: 366:     EECON1bits.WREN = 0;
+[e = . . _EECON1bits 0 2 -> -> 0 `i `uc ]
+"386
+[; ;nvm.c: 386:     if (interruptEnabled) {
+[e $ ! != -> _interruptEnabled `i -> 0 `i 1583  ]
 {
-[e = . . _LATBbits 0 7 -> -> 0 `i `uc ]
-}
-"245
-[e $ ! == -> _ready `i -> 1 `i 1585  ]
+"387
+[; ;nvm.c: 387:         {INTCONbits.GIEH = INTCONbits.GIEL = 1;};
 {
-"246
-[e $ ! == . _ir_results 2 _code1_hash 1586  ]
+[e = . . _INTCONbits 2 2 = . . _INTCONbits 2 1 -> -> 1 `i `uc ]
+}
+"388
+[; ;nvm.c: 388:     }
+}
+[e :U 1583 ]
+"389
+[; ;nvm.c: 389: }
+[e :UE 1576 ]
+}
+"396
+[; ;nvm.c: 396: void flushFlashBlock(void) {
+[v _flushFlashBlock `(v ~T0 @X0 1 ef ]
 {
-"247
-{
-[e = . . _LATCbits 0 6 -> -> 1 `i `uc ]
-}
-"248
-{
-[e = . . _LATCbits 0 5 -> -> 0 `i `uc ]
-}
-"249
-[e = . _onTime 0 ( _tickGet ..  ]
-"250
-{
-[e = . . _LATBbits 0 2 -> -> 1 `i `uc ]
-}
-"251
-}
-[e :U 1586 ]
-"252
-[e $ ! == . _ir_results 2 _code2_hash 1587  ]
-{
-"253
-{
-[e = . . _LATCbits 0 5 -> -> 1 `i `uc ]
-}
-"254
-{
-[e = . . _LATCbits 0 6 -> -> 0 `i `uc ]
-}
-"255
-[e = . _onTime 0 ( _tickGet ..  ]
-"256
-{
-[e = . . _LATBbits 0 2 -> -> 0 `i `uc ]
-}
-"257
-}
-[e :U 1587 ]
-"259
-[e ( _ir_resume ..  ]
-"260
-}
+[e :U _flushFlashBlock ]
+[f ]
+"397
+[; ;nvm.c: 397:     uint8_t interruptEnabled;
+[v _interruptEnabled `uc ~T0 @X0 1 a ]
+"399
+[; ;nvm.c: 399:     TBLPTR = flashBlock;
+[e = _TBLPTR -> _flashBlock `um ]
+"400
+[; ;nvm.c: 400:     TBLPTRU = 0;
+[e = _TBLPTRU -> -> 0 `i `uc ]
+"405
+[; ;nvm.c: 405:     if (! flashFlags.writeNeeded) return;
+[e $ ! ! != -> . . _flashFlags 1 0 `i -> 0 `i 1585  ]
+[e $UE 1584  ]
 [e :U 1585 ]
-"261
-}
-[e :U 1584 ]
-"262
-[e $ ! > - ( _tickGet ..  . _onTime 0 -> * -> -> 4 `i `l * -> 62500 `l -> -> 5 `i `l `ul 1588  ]
-{
-"263
-{
-[e = . . _LATCbits 0 6 -> -> 0 `i `uc ]
-}
-"264
-{
-[e = . . _LATCbits 0 5 -> -> 0 `i `uc ]
-}
-"265
-}
+"408
+[; ;nvm.c: 408:     while (APP_isSuitableTimeToWriteFlash() == BAD_TIME)
+[e $U 1586  ]
+[e :U 1587 ]
+"409
+[; ;nvm.c: 409:         ;
+[e :U 1586 ]
+"408
+[; ;nvm.c: 408:     while (APP_isSuitableTimeToWriteFlash() == BAD_TIME)
+[e $ == -> ( _APP_isSuitableTimeToWriteFlash ..  `ui -> . `E12344 0 `ui 1587  ]
 [e :U 1588 ]
-"266
-[e :UE 1569 ]
-}
-"273
-[v _loadCode `(ul ~T0 @X0 1 ef1`uc ]
+"411
+[; ;nvm.c: 411:     if (flashFlags.eraseNeeded) {
+[e $ ! != -> . . _flashFlags 1 1 `i -> 0 `i 1589  ]
 {
-[e :U _loadCode ]
-[v _codeNo `uc ~T0 @X0 1 r1 ]
-[f ]
-"274
-[v _res `ul ~T0 @X0 1 a ]
-"275
-[e = _res -> ( _EEPROM_Read (1 -> + -> 0 `i * -> 4 `i -> _codeNo `i `us `ul ]
-"276
-[e = _res << _res -> 8 `i ]
-"277
-[e =| _res -> ( _EEPROM_Read (1 -> + -> 1 `i * -> 4 `i -> _codeNo `i `us `ul ]
-"278
-[e = _res << _res -> 8 `i ]
-"279
-[e =| _res -> ( _EEPROM_Read (1 -> + -> 2 `i * -> 4 `i -> _codeNo `i `us `ul ]
-"280
-[e = _res << _res -> 8 `i ]
-"281
-[e =| _res -> ( _EEPROM_Read (1 -> + -> 3 `i * -> 4 `i -> _codeNo `i `us `ul ]
-"282
-[e ) _res ]
-[e $UE 1589  ]
-"283
-[e :UE 1589 ]
+"412
+[; ;nvm.c: 412:         eraseFlashBlock();
+[e ( _eraseFlashBlock ..  ]
+"413
+[; ;nvm.c: 413:     }
 }
-"290
-[v _saveCode `(v ~T0 @X0 1 ef2`uc`ul ]
+[e :U 1589 ]
+"415
+[; ;nvm.c: 415:     interruptEnabled = (INTCONbits.GIEH | INTCONbits.GIEL);
+[e = _interruptEnabled -> | -> . . _INTCONbits 2 2 `i -> . . _INTCONbits 2 1 `i `uc ]
+"416
+[; ;nvm.c: 416:     {INTCONbits.GIEH = INTCONbits.GIEL = 0;};
 {
-[e :U _saveCode ]
-[v _codeNo `uc ~T0 @X0 1 r1 ]
-[v _code `ul ~T0 @X0 1 r2 ]
-[f ]
-"291
-[e ( _EEPROM_Write (2 , -> + -> 3 `i * -> 4 `i -> _codeNo `i `us -> & _code -> -> -> 255 `i `l `ul `uc ]
-"292
-[e = _code >> _code -> 8 `i ]
-"293
-[e ( _EEPROM_Write (2 , -> + -> 2 `i * -> 4 `i -> _codeNo `i `us -> & _code -> -> -> 255 `i `l `ul `uc ]
-"294
-[e = _code >> _code -> 8 `i ]
-"295
-[e ( _EEPROM_Write (2 , -> + -> 1 `i * -> 4 `i -> _codeNo `i `us -> & _code -> -> -> 255 `i `l `ul `uc ]
-"296
-[e = _code >> _code -> 8 `i ]
-"297
-[e ( _EEPROM_Write (2 , -> + -> 0 `i * -> 4 `i -> _codeNo `i `us -> & _code -> -> -> 255 `i `l `ul `uc ]
-"298
-[e :UE 1590 ]
+[e = . . _INTCONbits 2 2 = . . _INTCONbits 2 1 -> -> 0 `i `uc ]
 }
-[v $root$_isrHigh `(v ~T0 @X0 0 e ]
-"303
-[v _isrHigh `(v ~T5 @X1 1 ef ]
+"418
+[; ;nvm.c: 418:     for (uint8_t i=0; i<64; i++) {
 {
-[e :U _isrHigh ]
-[f ]
-"304
-[e ( _ir_interruptService ..  ]
-"305
-[e :UE 1591 ]
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 64 `i 1590  ]
+[e $U 1591  ]
+[e :U 1590 ]
+{
+"419
+[; ;nvm.c: 419:         TABLAT = flashBuffer[i];
+[e = _TABLAT *U + &U _flashBuffer * -> _i `ux -> -> # *U &U _flashBuffer `ui `ux ]
+"420
+[; ;nvm.c: 420:         __asm("TBLWT*+");
+[; <" TBLWT*+ ;# ">
+"421
+[; ;nvm.c: 421:     }
 }
-[v $root$_isrLow `(v ~T0 @X0 0 e ]
-"310
-[v _isrLow `(v ~T6 @X2 1 ef ]
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 64 `i 1590  ]
+[e :U 1591 ]
+}
+"428
+[; ;nvm.c: 428:     TBLPTR = flashBlock;
+[e = _TBLPTR -> _flashBlock `um ]
+"429
+[; ;nvm.c: 429:     TBLPTRU = 0;
+[e = _TBLPTRU -> -> 0 `i `uc ]
+"430
+[; ;nvm.c: 430:     EECON1bits.EEPGD = 1;
+[e = . . _EECON1bits 0 7 -> -> 1 `i `uc ]
+"431
+[; ;nvm.c: 431:     EECON1bits.CFGS = 0;
+[e = . . _EECON1bits 0 6 -> -> 0 `i `uc ]
+"432
+[; ;nvm.c: 432:     EECON1bits.FREE = 0;
+[e = . . _EECON1bits 0 4 -> -> 0 `i `uc ]
+"433
+[; ;nvm.c: 433:     EECON1bits.WREN = 1;
+[e = . . _EECON1bits 0 2 -> -> 1 `i `uc ]
+"435
+[; ;nvm.c: 435:     EECON2 = 0x55;
+[e = _EECON2 -> -> 85 `i `uc ]
+"436
+[; ;nvm.c: 436:     EECON2 = 0xAA;
+[e = _EECON2 -> -> 170 `i `uc ]
+"437
+[; ;nvm.c: 437:     EECON1bits.WR = 1;
+[e = . . _EECON1bits 0 1 -> -> 1 `i `uc ]
+"438
+[; ;nvm.c: 438:     EECON1bits.WREN = 0;
+[e = . . _EECON1bits 0 2 -> -> 0 `i `uc ]
+"461
+[; ;nvm.c: 461:     if (interruptEnabled) {
+[e $ ! != -> _interruptEnabled `i -> 0 `i 1593  ]
 {
-[e :U _isrLow ]
+"462
+[; ;nvm.c: 462:         {INTCONbits.GIEH = INTCONbits.GIEL = 1;};
+{
+[e = . . _INTCONbits 2 2 = . . _INTCONbits 2 1 -> -> 1 `i `uc ]
+}
+"463
+[; ;nvm.c: 463:     }
+}
+[e :U 1593 ]
+"464
+[; ;nvm.c: 464:     flashFlags.asByte = 0;
+[e = . _flashFlags 0 -> -> 0 `i `uc ]
+"465
+[; ;nvm.c: 465: }
+[e :UE 1584 ]
+}
+"470
+[; ;nvm.c: 470: void loadFlashBlock(void) {
+[v _loadFlashBlock `(v ~T0 @X0 1 ef ]
+{
+[e :U _loadFlashBlock ]
 [f ]
-"311
-[e ( _tickerIsr ..  ]
-"312
-[e :UE 1592 ]
+"472
+[; ;nvm.c: 472:     EECON1=0X80;
+[e = _EECON1 -> -> 128 `i `uc ]
+"473
+[; ;nvm.c: 473:     TBLPTR = flashBlock;
+[e = _TBLPTR -> _flashBlock `um ]
+"474
+[; ;nvm.c: 474:     TBLPTRU = 0;
+[e = _TBLPTRU -> -> 0 `i `uc ]
+"475
+[; ;nvm.c: 475:     for (uint8_t i=0; i<64; i++) {
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 64 `i 1595  ]
+[e $U 1596  ]
+[e :U 1595 ]
+{
+"476
+[; ;nvm.c: 476:         __asm("TBLRD*+");
+[; <" TBLRD*+ ;# ">
+"477
+[; ;nvm.c: 477:         __nop();
+[e ( ___nop ..  ]
+"478
+[; ;nvm.c: 478:         flashBuffer[i] = TABLAT;
+[e = *U + &U _flashBuffer * -> _i `ux -> -> # *U &U _flashBuffer `ui `ux _TABLAT ]
+"479
+[; ;nvm.c: 479:     }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 64 `i 1595  ]
+[e :U 1596 ]
+}
+"480
+[; ;nvm.c: 480:     TBLPTR = flashBlock;
+[e = _TBLPTR -> _flashBlock `um ]
+"481
+[; ;nvm.c: 481:     TBLPTRU = 0;
+[e = _TBLPTRU -> -> 0 `i `uc ]
+"497
+[; ;nvm.c: 497:     flashFlags.asByte = 0;
+[e = . _flashFlags 0 -> -> 0 `i `uc ]
+"498
+[; ;nvm.c: 498: }
+[e :UE 1594 ]
+}
+"508
+[; ;nvm.c: 508: uint8_t FLASH_Write(flash_address_t index, flash_data_t value) {
+[v _FLASH_Write `(uc ~T0 @X0 1 ef2`us`uc ]
+{
+[e :U _FLASH_Write ]
+[v _index `us ~T0 @X0 1 r1 ]
+[v _value `uc ~T0 @X0 1 r2 ]
+[f ]
+"509
+[; ;nvm.c: 509:     uint8_t oldValue;
+[v _oldValue `uc ~T0 @X0 1 a ]
+"524
+[; ;nvm.c: 524:     if ((index&(~((flash_address_t)64 -1))) != flashBlock) {
+[e $ ! != & -> _index `ui ~ - -> -> -> 64 `i `us `ui -> -> 1 `i `ui -> _flashBlock `ui 1599  ]
+{
+"525
+[; ;nvm.c: 525:         if (flashBlock != 0) {
+[e $ ! != -> _flashBlock `ui -> -> 0 `i `ui 1600  ]
+{
+"527
+[; ;nvm.c: 527:             if (flashFlags.eraseNeeded) {
+[e $ ! != -> . . _flashFlags 1 1 `i -> 0 `i 1601  ]
+{
+"528
+[; ;nvm.c: 528:                 eraseFlashBlock();
+[e ( _eraseFlashBlock ..  ]
+"529
+[; ;nvm.c: 529:                 flashFlags.eraseNeeded = 0;
+[e = . . _flashFlags 1 1 -> -> 0 `i `uc ]
+"530
+[; ;nvm.c: 530:             }
+}
+[e :U 1601 ]
+"532
+[; ;nvm.c: 532:             flushFlashBlock();
+[e ( _flushFlashBlock ..  ]
+"533
+[; ;nvm.c: 533:         }
+}
+[e :U 1600 ]
+"536
+[; ;nvm.c: 536:         flashBlock = (index&(~((flash_address_t)64 -1)));
+[e = _flashBlock -> & -> _index `ui ~ - -> -> -> 64 `i `us `ui -> -> 1 `i `ui `us ]
+"537
+[; ;nvm.c: 537:         loadFlashBlock();
+[e ( _loadFlashBlock ..  ]
+"538
+[; ;nvm.c: 538:     }
+}
+[e :U 1599 ]
+"539
+[; ;nvm.c: 539:     flashFlags.eraseNeeded |= (value & ~flashBuffer[(index&(64 -1))])?1:0;
+[e =| . . _flashFlags 1 1 -> ? != & -> _value `i ~ -> *U + &U _flashBuffer * -> & -> _index `ui -> - -> 64 `i -> 1 `i `ui `ux -> -> # *U &U _flashBuffer `ui `ux `i -> 0 `i : -> 1 `i -> 0 `i `uc ]
+"540
+[; ;nvm.c: 540:     if (flashBuffer[(index&(64 -1))] != value) {
+[e $ ! != -> *U + &U _flashBuffer * -> & -> _index `ui -> - -> 64 `i -> 1 `i `ui `ux -> -> # *U &U _flashBuffer `ui `ux `i -> _value `i 1602  ]
+{
+"541
+[; ;nvm.c: 541:         flashFlags.writeNeeded = 1;
+[e = . . _flashFlags 1 0 -> -> 1 `i `uc ]
+"542
+[; ;nvm.c: 542:         flashBuffer[(index&(64 -1))] = value;
+[e = *U + &U _flashBuffer * -> & -> _index `ui -> - -> 64 `i -> 1 `i `ui `ux -> -> # *U &U _flashBuffer `ui `ux _value ]
+"543
+[; ;nvm.c: 543:     }
+}
+[e :U 1602 ]
+"544
+[; ;nvm.c: 544:     return 0;
+[e ) -> -> 0 `i `uc ]
+[e $UE 1598  ]
+"545
+[; ;nvm.c: 545: }
+[e :UE 1598 ]
+}
+"554
+[; ;nvm.c: 554: uint8_t writeNVM(NVMtype type, uint24_t index, uint8_t value) {
+[v _writeNVM `(uc ~T0 @X0 1 ef3`E12340`um`uc ]
+{
+[e :U _writeNVM ]
+[v _type `E12340 ~T0 @X0 1 r1 ]
+[v _index `um ~T0 @X0 1 r2 ]
+[v _value `uc ~T0 @X0 1 r3 ]
+[f ]
+"555
+[; ;nvm.c: 555:     switch(type) {
+[e $U 1605  ]
+{
+"556
+[; ;nvm.c: 556:         case EEPROM_NVM_TYPE:
+[e :U 1606 ]
+"557
+[; ;nvm.c: 557:             return EEPROM_Write((eeprom_address_t)index, value);
+[e ) ( _EEPROM_Write (2 , -> _index `us _value ]
+[e $UE 1603  ]
+"558
+[; ;nvm.c: 558:         case FLASH_NVM_TYPE:
+[e :U 1607 ]
+"559
+[; ;nvm.c: 559:             return FLASH_Write((flash_address_t)index, value);
+[e ) ( _FLASH_Write (2 , -> _index `us _value ]
+[e $UE 1603  ]
+"560
+[; ;nvm.c: 560:         default:
+[e :U 1608 ]
+"561
+[; ;nvm.c: 561:             return 1;
+[e ) -> -> 1 `i `uc ]
+[e $UE 1603  ]
+"562
+[; ;nvm.c: 562:     }
+}
+[e $U 1604  ]
+[e :U 1605 ]
+[e [\ -> _type `ui , $ -> . `E12340 0 `ui 1606
+ , $ -> . `E12340 1 `ui 1607
+ 1608 ]
+[e :U 1604 ]
+"563
+[; ;nvm.c: 563: }
+[e :UE 1603 ]
+}
+"571
+[; ;nvm.c: 571: int16_t readNVM(NVMtype type, uint24_t index) {
+[v _readNVM `(s ~T0 @X0 1 ef2`E12340`um ]
+{
+[e :U _readNVM ]
+[v _type `E12340 ~T0 @X0 1 r1 ]
+[v _index `um ~T0 @X0 1 r2 ]
+[f ]
+"572
+[; ;nvm.c: 572:     switch(type) {
+[e $U 1611  ]
+{
+"573
+[; ;nvm.c: 573:         case EEPROM_NVM_TYPE:
+[e :U 1612 ]
+"574
+[; ;nvm.c: 574:             return EEPROM_Read((uint16_t)index);
+[e ) -> ( _EEPROM_Read (1 -> _index `us `s ]
+[e $UE 1609  ]
+"575
+[; ;nvm.c: 575:         case FLASH_NVM_TYPE:
+[e :U 1613 ]
+"577
+[; ;nvm.c: 577:             return FLASH_Read((uint16_t)index);
+[e ) -> ( _FLASH_Read (1 -> _index `us `s ]
+[e $UE 1609  ]
+"582
+[; ;nvm.c: 582:         default:
+[e :U 1614 ]
+"583
+[; ;nvm.c: 583:             return -1;
+[e ) -> -U -> 1 `i `s ]
+[e $UE 1609  ]
+"584
+[; ;nvm.c: 584:     }
+}
+[e $U 1610  ]
+[e :U 1611 ]
+[e [\ -> _type `ui , $ -> . `E12340 0 `ui 1612
+ , $ -> . `E12340 1 `ui 1613
+ 1614 ]
+[e :U 1610 ]
+"585
+[; ;nvm.c: 585: }
+[e :UE 1609 ]
 }

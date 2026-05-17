@@ -1,4 +1,4 @@
-# 1 "ir.c"
+# 1 "nvm.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 285 "<built-in>" 3
@@ -6,8 +6,8 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "ir.c" 2
-# 27 "ir.c"
+# 1 "nvm.c" 2
+# 75 "nvm.c"
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -20317,280 +20317,368 @@ __attribute__((__unsupported__("The " "Write_b_eep" " routine is no longer suppo
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
 # 34 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
-# 28 "ir.c" 2
-# 1 "./ir.h" 1
-# 24 "./ir.h"
-typedef struct {
-  int decode_type;
-  unsigned int panasonicAddress;
-  unsigned long value;
-  int bits;
-  volatile unsigned int *rawbuf;
-  unsigned int rawlen;
-} decode_results;
-# 68 "./ir.h"
-extern void ir_interruptService(void);
-
-
-extern void ir_blink13(int blinkflag);
-extern uint8_t ir_decode(decode_results *results);
-extern void ir_enableIRIn(void);
-extern void ir_resume(void);
-
-extern void ir_delay(unsigned long time);
-# 95 "./ir.h"
-typedef struct {
-    unsigned char rcvstate;
-    unsigned int timer;
-    unsigned int rawbuf[100];
-    unsigned int rawlen;
-} irparams_t;
-
-
-extern volatile irparams_t irparams;
-# 29 "ir.c" 2
+# 76 "nvm.c" 2
 # 1 "./hardware.h" 1
-# 30 "ir.c" 2
-
-volatile irparams_t irparams;
-static void ir_timerRst(void);
-static void ir_timerCfgNorm(void);
-static long ir_decodeHash(decode_results *results);
-static uint8_t MATCH(unsigned int measured, int desired);
-static uint8_t MATCH_MARK(unsigned int measured_ticks, int desired_us);
-static uint8_t MATCH_SPACE(unsigned int measured_ticks, int desired_us);
+# 77 "nvm.c" 2
+# 1 "./nvm.h" 1
+# 68 "./nvm.h"
+typedef enum {
+    EEPROM_NVM_TYPE,
+    FLASH_NVM_TYPE
+} NVMtype;
 
 
-void ir_enableIRIn(void) {
-    {LATCbits.LATC7 = 0;};
-
-    irparams.rcvstate = 2;
-    irparams.rawlen = 0;
-
-    (INTCONbits.GIEH = 0);
-
-    ir_timerCfgNorm();
-    ir_timerRst();
 
 
-    (PIE2bits.TMR3IE=1);
+typedef enum ValidTime {
+    BAD_TIME=0,
+    GOOD_TIME=1
+} ValidTime;
+# 109 "./nvm.h"
+typedef uint8_t flash_data_t;
 
-    (INTCONbits.GIEH = 1);
-}
 
-volatile unsigned char half_pwm = 0;
+
+
+typedef uint16_t flash_address_t;
 
 
 
 
 
-static void ir_timerCfgNorm(void) {
-
-  IPR2bits.TMR3IP = 1;
-
-  T3CONbits.TMR3ON = 0;
-  T3CONbits.TMR3CS = 0;
-  T3CONbits.T3CKPS = 0;
-  T3CONbits.SOSCEN = 0;
-  T3CONbits.nT3SYNC = 1;
-  T3CONbits.RD16 = 1;
-  T3GCONbits.TMR3GE = 0;
-
-  ir_timerRst();
-
-  PIR2bits.TMR3IF = 0;
-  T3CONbits.TMR3ON = 1;
-}
+typedef uint8_t eeprom_data_t;
 
 
 
 
-static void ir_timerRst(void) {
+typedef uint16_t eeprom_address_t;
+# 147 "./nvm.h"
+extern void flushFlashBlock(void);
 
-    TMR3H = (65535 - (50*(16000000/1000000)))/256;
-    TMR3L = (65535 - (50*(16000000/1000000)))%256;
-}
-# 100 "ir.c"
-void ir_interruptService(void)
+
+
+
+extern void initRomOps(void);
+
+
+
+
+
+
+
+extern int16_t readNVM(NVMtype type, uint24_t index);
+# 171 "./nvm.h"
+extern uint8_t writeNVM(NVMtype type, uint24_t index, uint8_t value);
+# 180 "./nvm.h"
+extern uint8_t EEPROM_WriteNoVerify(eeprom_address_t index, eeprom_data_t value);
+
+
+
+
+
+extern ValidTime APP_isSuitableTimeToWriteFlash(void);
+# 78 "nvm.c" 2
+# 1 "./irsw.h" 1
+# 79 "nvm.c" 2
+
+#pragma optimize 1
+# 131 "nvm.c"
+static union
 {
-    unsigned char irdata = 0;
+    uint8_t asByte;
+    struct {
+        uint8_t writeNeeded:1;
+        uint8_t eraseNeeded:1;
+    };
+} flashFlags;
 
 
-    if (PIR2bits.TMR3IF == 1)
-    {
-        PIR2bits.TMR3IF = 0;
+static flash_data_t flashBuffer[64];
 
-        ir_timerRst();
 
-        irdata = (unsigned char)(PORTCbits.RC0);
 
-        irparams.timer++;
-        if (irparams.rawlen >= 100) {
 
-            irparams.rcvstate = 5;
-        }
-        switch(irparams.rcvstate) {
-          case 2:
-            if (irdata == 0) {
-                if (irparams.timer < (5000/50)) {
 
-                    irparams.timer = 0;
-                }
-                else {
+static flash_address_t flashBlock;
+# 157 "nvm.c"
+void initRomOps(void) {
+    flashFlags.asByte = 0;
+    flashBlock = 0x0800;
 
-                    irparams.rawlen = 0;
-                    irparams.rawbuf[irparams.rawlen++] = irparams.timer;
-                    irparams.timer = 0;
-                    irparams.rcvstate = 3;
-                }
-            }
+    TBLPTRU = 0;
+
+
+
+}
+
+
+
+
+
+
+eeprom_data_t EEPROM_Read(eeprom_address_t index) {
+
+
+    while (EECON1bits.WR)
+        ;
+
+    EEADRH = (index >> 8)&0xFF;
+    EEADR = index & 0xFF;
+    EECON1bits.EEPGD = 0;
+    EECON1bits.CFGS = 0;
+    EECON1bits.RD = 1;
+    while (EECON1bits.RD)
+        ;
+
+    __asm("NOP");
+
+    return EEDATA;
+# 211 "nvm.c"
+}
+
+
+
+
+
+
+
+uint8_t EEPROM_Write(eeprom_address_t index, eeprom_data_t value) {
+    uint8_t interruptEnabled;
+    interruptEnabled = (INTCONbits.GIEH | INTCONbits.GIEL);
+
+    do {
+        EEPROM_WriteNoVerify(index, value);
+
+
+        if (EEPROM_Read(index) == value) {
             break;
-          case 3:
-            if (irdata == 1) {
-                irparams.rawbuf[irparams.rawlen++] = irparams.timer;
-                irparams.timer = 0;
-                irparams.rcvstate = 4;
-            }
-            break;
-          case 4:
-            if (irdata == 0) {
-                irparams.rawbuf[irparams.rawlen++] = irparams.timer;
-                irparams.timer = 0;
-                irparams.rcvstate = 3;
-            } else {
-                if (irparams.timer > (5000/50)) {
-
-
-
-
-                    irparams.rcvstate = 5;
-                }
-            }
-            break;
-         case 5:
-            if (irdata == 0) {
-                irparams.timer = 0;
-            }
-            break;
         }
 
-        if (irdata == 0) {
-            {LATCbits.LATC7 = 1;};
-        }
-        else {
-            {LATCbits.LATC7 = 0;};
-        }
+
+
+
+    } while (1);
+
+
+
+
+
+    return 0;
+}
+
+
+
+
+
+
+
+uint8_t EEPROM_WriteNoVerify(eeprom_address_t index, eeprom_data_t value) {
+    uint8_t interruptEnabled;
+    interruptEnabled = (INTCONbits.GIEH | INTCONbits.GIEL);
+
+    EEADRH = (index >> 8)&0xFF;
+    EEADR = index & 0xFF;
+    EEDATA = value;
+    EECON1bits.EEPGD = 0;
+    EECON1bits.CFGS = 0;
+    EECON1bits.WREN = 1;
+
+    {INTCONbits.GIEH = INTCONbits.GIEL = 0;};
+    EECON2 = 0x55;
+    EECON2 = 0xAA;
+    EECON1bits.WR = 1;
+    while (EECON1bits.WR)
+        ;
+    while (!EEIF)
+        ;
+    EEIF = 0;
+    if (interruptEnabled) {
+
+        {INTCONbits.GIEH = INTCONbits.GIEL = 1;};
+    }
+    EECON1bits.WREN = 0;
+# 306 "nvm.c"
+    return 0;
+}
+# 316 "nvm.c"
+static flash_data_t FLASH_Read(flash_address_t address) {
+
+    if ((address&(~((flash_address_t)64 -1))) == flashBlock) {
+
+        return flashBuffer[(address&(64 -1))];
+    } else {
+
+
+        TBLPTR = address;
+        TBLPTRU = 0;
+        __asm("TBLRD");
+# 336 "nvm.c"
+        return TABLAT;
     }
 }
 
 
 
 
-void ir_resume(void) {
-    irparams.rcvstate = 2;
-    irparams.rawlen = 0;
+
+
+void eraseFlashBlock(void) {
+    uint8_t interruptEnabled;
+
+
+    while (! APP_isSuitableTimeToWriteFlash())
+        ;
+
+    interruptEnabled = (INTCONbits.GIEH | INTCONbits.GIEL);
+
+    TBLPTR = flashBlock;
+    TBLPTRU = 0;
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+    EECON1bits.WREN = 1;
+    EECON1bits.FREE = 1;
+    {INTCONbits.GIEH = INTCONbits.GIEL = 0;};
+    EECON2 = 0x55;
+    EECON2 = 0xaa;
+    EECON1bits.WR = 1;
+    while(EECON1bits.WR)
+        ;
+    EECON1bits.WREN = 0;
+# 386 "nvm.c"
+    if (interruptEnabled) {
+        {INTCONbits.GIEH = INTCONbits.GIEL = 1;};
+    }
 }
 
 
 
 
 
-uint8_t ir_decode(decode_results *results) {
-  results->rawlen = irparams.rawlen;
-  results->rawbuf = (volatile unsigned int *)&irparams.rawbuf[0];
-  if (irparams.rcvstate != 5) {
+
+void flushFlashBlock(void) {
+    uint8_t interruptEnabled;
+
+    TBLPTR = flashBlock;
+    TBLPTRU = 0;
+
+
+
+
+    if (! flashFlags.writeNeeded) return;
+
+
+    while (APP_isSuitableTimeToWriteFlash() == BAD_TIME)
+        ;
+
+    if (flashFlags.eraseNeeded) {
+        eraseFlashBlock();
+    }
+
+    interruptEnabled = (INTCONbits.GIEH | INTCONbits.GIEL);
+    {INTCONbits.GIEH = INTCONbits.GIEL = 0;};
+
+    for (uint8_t i=0; i<64; i++) {
+        TABLAT = flashBuffer[i];
+        __asm("TBLWT*+");
+    }
+
+
+
+
+
+
+    TBLPTR = flashBlock;
+    TBLPTRU = 0;
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+    EECON1bits.FREE = 0;
+    EECON1bits.WREN = 1;
+
+    EECON2 = 0x55;
+    EECON2 = 0xAA;
+    EECON1bits.WR = 1;
+    EECON1bits.WREN = 0;
+# 461 "nvm.c"
+    if (interruptEnabled) {
+        {INTCONbits.GIEH = INTCONbits.GIEL = 1;};
+    }
+    flashFlags.asByte = 0;
+}
+
+
+
+
+void loadFlashBlock(void) {
+
+    EECON1=0X80;
+    TBLPTR = flashBlock;
+    TBLPTRU = 0;
+    for (uint8_t i=0; i<64; i++) {
+        __asm("TBLRD*+");
+        __nop();
+        flashBuffer[i] = TABLAT;
+    }
+    TBLPTR = flashBlock;
+    TBLPTRU = 0;
+# 497 "nvm.c"
+    flashFlags.asByte = 0;
+}
+# 508 "nvm.c"
+uint8_t FLASH_Write(flash_address_t index, flash_data_t value) {
+    uint8_t oldValue;
+# 524 "nvm.c"
+    if ((index&(~((flash_address_t)64 -1))) != flashBlock) {
+        if (flashBlock != 0) {
+
+            if (flashFlags.eraseNeeded) {
+                eraseFlashBlock();
+                flashFlags.eraseNeeded = 0;
+            }
+
+            flushFlashBlock();
+        }
+
+
+        flashBlock = (index&(~((flash_address_t)64 -1)));
+        loadFlashBlock();
+    }
+    flashFlags.eraseNeeded |= (value & ~flashBuffer[(index&(64 -1))])?1:0;
+    if (flashBuffer[(index&(64 -1))] != value) {
+        flashFlags.writeNeeded = 1;
+        flashBuffer[(index&(64 -1))] = value;
+    }
     return 0;
-  }
-
-
-
-
-  if (ir_decodeHash(results)) {
-    return 1;
-  }
-
-  ir_resume();
-  return 0;
 }
-# 210 "ir.c"
-static int ir_getRClevel(decode_results *results, int *offset, int *used, int t1) {
-  unsigned int width = 0;
-  int val = 0;
-  int correction = 0;
-  int avail = 0;
-  if (*offset >= results->rawlen) {
-
-    return 1;
-  }
-  width = results->rawbuf[*offset];
-  val = ((*offset) % 2) ? 0 : 1;
-  correction = (val == 0) ? 100 : - 100;
-
-  if (MATCH(width, t1 + correction)) {
-    avail = 1;
-  }
-  else if (MATCH(width, 2*t1 + correction)) {
-    avail = 2;
-  }
-  else if (MATCH(width, 3*t1 + correction)) {
-    avail = 3;
-  }
-  else {
-    return -1;
-  }
-
-  (*used)++;
-  if (*used >= avail) {
-    *used = 0;
-    (*offset)++;
-  }
-  return val;
-}
-# 262 "ir.c"
-static uint8_t ir_compare(unsigned int oldval, unsigned int newval) {
-  if (newval < oldval * .8) {
-    return 0;
-  }
-  else if (oldval < newval * .8) {
-    return 2;
-  }
-  else {
-    return 1;
-  }
-}
-# 282 "ir.c"
-static long ir_decodeHash(decode_results *results)
-{
-  unsigned long hash = 2166136261;
-  int i = 0;
-
-  if (results->rawlen < 6) {
-    return 0;
-  }
-
-  for (i = 1; i+2 < results->rawlen; i++) {
-    uint8_t value = ir_compare(results->rawbuf[i], results->rawbuf[i+2]);
-
-    hash = (hash * 16777619) ^ value;
-  }
-  results->value = hash;
-  results->bits = 32;
-  results->decode_type = -1;
-  return 1;
+# 554 "nvm.c"
+uint8_t writeNVM(NVMtype type, uint24_t index, uint8_t value) {
+    switch(type) {
+        case EEPROM_NVM_TYPE:
+            return EEPROM_Write((eeprom_address_t)index, value);
+        case FLASH_NVM_TYPE:
+            return FLASH_Write((flash_address_t)index, value);
+        default:
+            return 1;
+    }
 }
 
 
-static uint8_t MATCH(unsigned int measured, int desired)
-{
-    return measured >= (int) (((desired)*(1.0 - 25/100.)/50)) && measured <= (int) (((desired)*(1.0 + 25/100.)/50 + 1));
-}
 
-static uint8_t MATCH_MARK(unsigned int measured_ticks, int desired_us)
-{
-    return MATCH(measured_ticks, (desired_us + 100));
-}
 
-static uint8_t MATCH_SPACE(unsigned int measured_ticks, int desired_us)
-{
-    return MATCH(measured_ticks, (desired_us - 100));
+
+
+
+int16_t readNVM(NVMtype type, uint24_t index) {
+    switch(type) {
+        case EEPROM_NVM_TYPE:
+            return EEPROM_Read((uint16_t)index);
+        case FLASH_NVM_TYPE:
+
+            return FLASH_Read((uint16_t)index);
+
+
+
+
+        default:
+            return -1;
+    }
 }

@@ -387,7 +387,7 @@ __end_of_ir_timerRst 237A 0 CODE 0
 __end_of_setup 2182 0 CODE 0
 __end_of_tickGet 2048 0 CODE 0
 __smallconst 1000 0 SMALLCONST 0
-__Hreset_vec 4 0 CODE 0
+__Hreset_vec 6 0 CODE 0
 __Lreset_vec 0 0 CODE 0
 __end_of_isrHigh 2258 0 CODE 0
 ___xxtofl@exp 10 0 COMRAM 1
@@ -427,7 +427,7 @@ ___lmul@product F 0 COMRAM 1
 ___flmul@a 19 0 COMRAM 1
 ___flmul@b 15 0 COMRAM 1
 %segments
-reset_vec 0 3 CODE 0 0
+reset_vec 0 5 CODE 0 0
 intcode 8 B CODE 8 0
 intcodelo 18 1F CODE 18 0
 smallconst 1000 1001 SMALLCONST 1000 0
@@ -436,8 +436,8 @@ bssBANK0 60 C1 BANK0 60 1
 bssBANK1 100 1CC BANK1 100 1
 text19 1002 2383 CODE 1002 0
 %locals
-dist/default/production\IR-switch.X.production.o
-C:\Users\ianwh\AppData\Local\Temp\xcBsuf8.1\driver_tmp_1.s
+dist/default/debug\IR-switch.X.debug.o
+C:\Users\ianwh\AppData\Local\Temp\xcAsl7o.\driver_tmp_1.s
 3935 228C 0 CODE 0
 3937 228C 0 CODE 0
 3940 228C 0 CODE 0
@@ -884,7 +884,7 @@ IRswitchMain.c
 303 223E 0 CODE 0
 304 2248 0 CODE 0
 305 224C 0 CODE 0
-C:\Users\ianwh\AppData\Local\Temp\xcBsuf8.1\driver_tmp_1.s
+C:\Users\ianwh\AppData\Local\Temp\xcAsl7o.\driver_tmp_1.s
 8950 18 0 CODE 0
 8952 18 0 CODE 0
 ticker.c
@@ -895,7 +895,7 @@ ticker.c
 139 2300 0 CODE 0
 140 2310 0 CODE 0
 144 2312 0 CODE 0
-C:\Users\ianwh\AppData\Local\Temp\xcBsuf8.1\driver_tmp_1.s
+C:\Users\ianwh\AppData\Local\Temp\xcAsl7o.\driver_tmp_1.s
 9104 8 0 CODE 0
 9106 8 0 CODE 0
 ir.c

@@ -1,4 +1,4 @@
-# 1 "ir.c"
+# 1 "ticker.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 285 "<built-in>" 3
@@ -6,8 +6,8 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "ir.c" 2
-# 27 "ir.c"
+# 1 "ticker.c" 2
+# 15 "ticker.c"
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -20317,280 +20317,136 @@ __attribute__((__unsupported__("The " "Write_b_eep" " routine is no longer suppo
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
 # 34 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
-# 28 "ir.c" 2
-# 1 "./ir.h" 1
-# 24 "./ir.h"
-typedef struct {
-  int decode_type;
-  unsigned int panasonicAddress;
-  unsigned long value;
-  int bits;
-  volatile unsigned int *rawbuf;
-  unsigned int rawlen;
-} decode_results;
-# 68 "./ir.h"
-extern void ir_interruptService(void);
+# 16 "ticker.c" 2
+# 1 "./ticker.h" 1
+# 79 "./ticker.h"
+typedef union _TickValue {
 
+    uint32_t val;
 
-extern void ir_blink13(int blinkflag);
-extern uint8_t ir_decode(decode_results *results);
-extern void ir_enableIRIn(void);
-extern void ir_resume(void);
-
-extern void ir_delay(unsigned long time);
-# 95 "./ir.h"
-typedef struct {
-    unsigned char rcvstate;
-    unsigned int timer;
-    unsigned int rawbuf[100];
-    unsigned int rawlen;
-} irparams_t;
-
-
-extern volatile irparams_t irparams;
-# 29 "ir.c" 2
-# 1 "./hardware.h" 1
-# 30 "ir.c" 2
-
-volatile irparams_t irparams;
-static void ir_timerRst(void);
-static void ir_timerCfgNorm(void);
-static long ir_decodeHash(decode_results *results);
-static uint8_t MATCH(unsigned int measured, int desired);
-static uint8_t MATCH_MARK(unsigned int measured_ticks, int desired_us);
-static uint8_t MATCH_SPACE(unsigned int measured_ticks, int desired_us);
-
-
-void ir_enableIRIn(void) {
-    {LATCbits.LATC7 = 0;};
-
-    irparams.rcvstate = 2;
-    irparams.rawlen = 0;
-
-    (INTCONbits.GIEH = 0);
-
-    ir_timerCfgNorm();
-    ir_timerRst();
-
-
-    (PIE2bits.TMR3IE=1);
-
-    (INTCONbits.GIEH = 1);
-}
-
-volatile unsigned char half_pwm = 0;
-
-
-
-
-
-static void ir_timerCfgNorm(void) {
-
-  IPR2bits.TMR3IP = 1;
-
-  T3CONbits.TMR3ON = 0;
-  T3CONbits.TMR3CS = 0;
-  T3CONbits.T3CKPS = 0;
-  T3CONbits.SOSCEN = 0;
-  T3CONbits.nT3SYNC = 1;
-  T3CONbits.RD16 = 1;
-  T3GCONbits.TMR3GE = 0;
-
-  ir_timerRst();
-
-  PIR2bits.TMR3IF = 0;
-  T3CONbits.TMR3ON = 1;
-}
-
-
-
-
-static void ir_timerRst(void) {
-
-    TMR3H = (65535 - (50*(16000000/1000000)))/256;
-    TMR3L = (65535 - (50*(16000000/1000000)))%256;
-}
-# 100 "ir.c"
-void ir_interruptService(void)
-{
-    unsigned char irdata = 0;
-
-
-    if (PIR2bits.TMR3IF == 1)
+    struct TickBytes
     {
-        PIR2bits.TMR3IF = 0;
+        uint8_t b0;
+        uint8_t b1;
+        uint8_t b2;
+        uint8_t b3;
+    } byte;
+    uint8_t v[4];
 
-        ir_timerRst();
-
-        irdata = (unsigned char)(PORTCbits.RC0);
-
-        irparams.timer++;
-        if (irparams.rawlen >= 100) {
-
-            irparams.rcvstate = 5;
-        }
-        switch(irparams.rcvstate) {
-          case 2:
-            if (irdata == 0) {
-                if (irparams.timer < (5000/50)) {
-
-                    irparams.timer = 0;
-                }
-                else {
-
-                    irparams.rawlen = 0;
-                    irparams.rawbuf[irparams.rawlen++] = irparams.timer;
-                    irparams.timer = 0;
-                    irparams.rcvstate = 3;
-                }
-            }
-            break;
-          case 3:
-            if (irdata == 1) {
-                irparams.rawbuf[irparams.rawlen++] = irparams.timer;
-                irparams.timer = 0;
-                irparams.rcvstate = 4;
-            }
-            break;
-          case 4:
-            if (irdata == 0) {
-                irparams.rawbuf[irparams.rawlen++] = irparams.timer;
-                irparams.timer = 0;
-                irparams.rcvstate = 3;
-            } else {
-                if (irparams.timer > (5000/50)) {
+    struct TickWords
+    {
+        uint16_t w0;
+        uint16_t w1;
+    } word;
+} TickValue;
+# 106 "./ticker.h"
+void initTicker(uint8_t priority);
 
 
 
 
-                    irparams.rcvstate = 5;
-                }
-            }
-            break;
-         case 5:
-            if (irdata == 0) {
-                irparams.timer = 0;
-            }
-            break;
-        }
 
-        if (irdata == 0) {
-            {LATCbits.LATC7 = 1;};
-        }
-        else {
-            {LATCbits.LATC7 = 0;};
+uint32_t tickGet(void);
+
+
+
+
+
+
+
+extern volatile uint8_t timerExtension1;
+
+
+
+
+extern volatile uint8_t timerExtension2;
+
+
+
+
+extern void tickerIsr(void);
+# 17 "ticker.c" 2
+# 1 "./hardware.h" 1
+# 18 "ticker.c" 2
+
+
+
+
+
+
+volatile uint8_t timerExtension1,timerExtension2;
+# 37 "ticker.c"
+void initTicker(uint8_t priority) {
+    uint8_t divider, i;
+
+    divider = 0;
+    for (i=16;i>0;i>>=1)
+        divider++;
+
+
+    T0CON = (uint8_t)(0b00000000 | divider);
+    T0CONbits.T08BIT = 0;
+    T0CONbits.T0CS = 0;
+    TMR0H = 0;
+    TMR0L = 0;
+    INTCON2bits.TMR0IP = priority;
+    INTCONbits.TMR0IF = 0;
+    INTCONbits.TMR0IE = 1;
+    T0CONbits.TMR0ON = 1;
+
+    timerExtension1 = 0;
+    timerExtension2 = 0;
+# 83 "ticker.c"
+}
+# 94 "ticker.c"
+uint32_t tickGet(void) {
+    TickValue currentTime;
+
+
+    uint8_t IntFlag1;
+    uint8_t IntFlag2;
+
+
+    currentTime.byte.b2 = 0;
+    currentTime.byte.b3 = 0;
+
+    INTCONbits.TMR0IE = 0;
+    do {
+        IntFlag1 = INTCONbits.TMR0IF;
+        currentTime.byte.b0 = TMR0L;
+        currentTime.byte.b1 = TMR0H;
+        IntFlag2 = INTCONbits.TMR0IF;
+    } while(IntFlag1 != IntFlag2);
+
+    if( IntFlag1 > 0 ) {
+        INTCONbits.TMR0IF = 0;
+        timerExtension1++;
+        if(timerExtension1 == 0)
+        {
+            timerExtension2++;
         }
     }
+
+
+    currentTime.byte.b2 += timerExtension1;
+    currentTime.byte.b3 += timerExtension2;
+
+
+    INTCONbits.TMR0IE = 1;
+
+    return currentTime.val;
 }
 
+void tickerIsr(void) {
 
 
+    if(INTCONbits.TMR0IF) {
 
-void ir_resume(void) {
-    irparams.rcvstate = 2;
-    irparams.rawlen = 0;
-}
-
-
-
-
-
-uint8_t ir_decode(decode_results *results) {
-  results->rawlen = irparams.rawlen;
-  results->rawbuf = (volatile unsigned int *)&irparams.rawbuf[0];
-  if (irparams.rcvstate != 5) {
-    return 0;
-  }
-
-
-
-
-  if (ir_decodeHash(results)) {
-    return 1;
-  }
-
-  ir_resume();
-  return 0;
-}
-# 210 "ir.c"
-static int ir_getRClevel(decode_results *results, int *offset, int *used, int t1) {
-  unsigned int width = 0;
-  int val = 0;
-  int correction = 0;
-  int avail = 0;
-  if (*offset >= results->rawlen) {
-
-    return 1;
-  }
-  width = results->rawbuf[*offset];
-  val = ((*offset) % 2) ? 0 : 1;
-  correction = (val == 0) ? 100 : - 100;
-
-  if (MATCH(width, t1 + correction)) {
-    avail = 1;
-  }
-  else if (MATCH(width, 2*t1 + correction)) {
-    avail = 2;
-  }
-  else if (MATCH(width, 3*t1 + correction)) {
-    avail = 3;
-  }
-  else {
-    return -1;
-  }
-
-  (*used)++;
-  if (*used >= avail) {
-    *used = 0;
-    (*offset)++;
-  }
-  return val;
-}
-# 262 "ir.c"
-static uint8_t ir_compare(unsigned int oldval, unsigned int newval) {
-  if (newval < oldval * .8) {
-    return 0;
-  }
-  else if (oldval < newval * .8) {
-    return 2;
-  }
-  else {
-    return 1;
-  }
-}
-# 282 "ir.c"
-static long ir_decodeHash(decode_results *results)
-{
-  unsigned long hash = 2166136261;
-  int i = 0;
-
-  if (results->rawlen < 6) {
-    return 0;
-  }
-
-  for (i = 1; i+2 < results->rawlen; i++) {
-    uint8_t value = ir_compare(results->rawbuf[i], results->rawbuf[i+2]);
-
-    hash = (hash * 16777619) ^ value;
-  }
-  results->value = hash;
-  results->bits = 32;
-  results->decode_type = -1;
-  return 1;
-}
-
-
-static uint8_t MATCH(unsigned int measured, int desired)
-{
-    return measured >= (int) (((desired)*(1.0 - 25/100.)/50)) && measured <= (int) (((desired)*(1.0 + 25/100.)/50 + 1));
-}
-
-static uint8_t MATCH_MARK(unsigned int measured_ticks, int desired_us)
-{
-    return MATCH(measured_ticks, (desired_us + 100));
-}
-
-static uint8_t MATCH_SPACE(unsigned int measured_ticks, int desired_us)
-{
-    return MATCH(measured_ticks, (desired_us - 100));
+        INTCONbits.TMR0IF = 0;
+        timerExtension1++;
+        if(timerExtension1 == 0) {
+            timerExtension2++;
+        }
+    }
+    return;
 }

@@ -47,8 +47,8 @@ extern uint8_t EEPROM_Write(eeprom_address_t index, eeprom_data_t value);
 #pragma config XINST =     OFF      // Extended Instruction Set (Disabled)
 
 // CONFIG1H
-#pragma config FOSC =      HS1       // Oscillator (HS oscillator (Medium power, 4 MHz - 16 MHz))
-#pragma config PLLCFG =    OFF      // PLL x4 Enable bit (Disabled)
+#pragma config FOSC =      HS2       // Oscillator (HS oscillator (High power, 4 MHz - 16 MHz))
+#pragma config PLLCFG =    ON      // PLL x4 Enable bit (Enabled)
 #pragma config FCMEN =     OFF      // Fail-Safe Clock Monitor (Disabled)
 #pragma config IESO =      OFF       // Internal External Oscillator Switch Over Mode (Disabled)
 
@@ -130,11 +130,17 @@ void main(void) {
     /* Without this EEPROM can get corrupted during power up. A  MCP111-450 
      * dongle does resolve this but is unnecessary with this software fix. 
      * Delay is approx 1 second. */
+    TRISB=0;
+    TRISC=0;
+    LED_CONFIG1_ON();
+    LED_CONFIG2_ON();
+    BLINKLED_ON();
+    
     for (t1=0; t1<64; t1++) {
         for (t2=0; t2<255; t2++) {
             for (i=0; i<255; i++) {
                 // do something innocuous
-                BLINKLED_OFF();
+                OUTPUT_CHANNEL_OFF();
             }
         }
     }
@@ -158,15 +164,11 @@ void setup(void) {
     ANCON1 = 0;
 
     // Set up the default port state
-    LED_CONFIG1_DIRECTION = OUTPUT;
-    LED_CONFIG2_DIRECTION = OUTPUT;
-    LED_DATA1_DIRECTION = OUTPUT;
-    LED_DATA2_DIRECTION = OUTPUT;
-    BLINKLED_DIRECTION = OUTPUT;
-    OUTPUT_DIRECTION = OUTPUT;
-    CONFIG_SWITCH_DIRECTION = INPUT;
-    IR_RECEIVE_DIRECTION = INPUT;
-    
+    // Only inputs are the switch and the IR sensor
+    TRISA = 0b00000100; // Switch on A2
+    TRISB = 0b00000000;
+    TRISC = 0b00000001; // Sensor on C0
+ 
     LED_CONFIG1_OFF();
     LED_CONFIG2_OFF();
     LED_DATA1_OFF();
@@ -237,26 +239,29 @@ void loop(void) {
             ir_resume();
         }
     } else {
+        configState = CONFIG_NONE; // ready for whenever config mode is entered again
+        LED_CONFIG1_OFF();
+        LED_CONFIG2_OFF();
         if (ready == DECODED) {
-            configState = CONFIG_NONE; // ready for whenever config mode is entered again
-            LED_CONFIG1_OFF();
-            LED_CONFIG2_OFF();
             if (ir_results.value == code1_hash) {
                 LED_DATA1_ON();
+                LED_DATA2_OFF();
                 onTime.val = tickGet();
                 OUTPUT_CHANNEL_ON();
             }
             if (ir_results.value == code2_hash) {
                 LED_DATA2_ON();
+                LED_DATA1_OFF();
                 onTime.val = tickGet();
                 OUTPUT_CHANNEL_OFF();
             }
-            if (tickTimeSince(onTime) > FIVE_SECOND) {
-                LED_DATA1_OFF();
-                LED_DATA2_OFF();
-            }
+
             ir_resume();
         }
+    }
+    if (tickTimeSince(onTime) > 4*FIVE_SECOND) {    // Timer seems to be running quickly
+        LED_DATA1_OFF();
+        LED_DATA2_OFF();
     }
 }
 
